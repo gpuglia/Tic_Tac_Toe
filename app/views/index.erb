@@ -1,27 +1,19 @@
-<div id="sign-in">
-  <div class="login_form">
-  <h2>Login</h2>
-    <form class="form" action="/login" method="POST">
-      <input type="text" name="email" placeholder="email"><br>
-      <input type="password" name="password" placeholder="password"><br>
-      <input type="submit" value="Login">
-      <% if @login_error %>
-        <small style="color:red">Login Error.</small>
-      <% end %>
-    </form>
+  <div id="board">
+    <table>
+      <tr id="row1">
+        <td class="square">1</td>
+        <td class="square v">2</td>
+        <td class="square">3</td>
+      </tr>
+      <tr id="row2">
+        <td class="square h">4</td>
+        <td class="square v h"></td>
+        <td class="square h"></td>
+      </tr>
+      <tr id="row3">
+        <td class="square">7</td>
+        <td class="square v"></td>
+        <td class="square"></td>
+      </tr>
+    </table>
   </div>
-
-  <div class="register_form">
-  <h2>Registration</h2>
-    <form class="form" action="/register" method="POST">
-      <input type="text" name="email" placeholder="email"><br>
-      <input type="password" name="password" placeholder="password"><br>
-      <input type="submit" value="Register">
-      <% if @register_error %>
-        <small style="color:red">Registration Error.</small>
-      <% end %>
-    </form>
-      <div id="errors"></div>
-  </div>
-</div>
-
