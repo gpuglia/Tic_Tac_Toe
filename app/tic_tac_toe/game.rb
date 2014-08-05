@@ -1,8 +1,8 @@
 module Tic_Tac_Toe
   class Game
-    def initialize(board, current_turn = :computer)
-      @board = board
-      @current_turn = current_turn
+    def initialize(args)
+      @state = args[:state]
+      @current_turn = args[:current_turn] || :computer
     end
 
     def over?
@@ -11,15 +11,8 @@ module Tic_Tac_Toe
 
     def win?(player)
       mark = mark(player)
-      lines.each { |line| return true if complete_line?(line, mark) }
+      @state.lines.each { |line| return true if complete_line?(line, mark) }
       return false
-    end
-
-    def complete_line?(line, mark)
-      line.each do |elem|
-        return false unless elem == mark
-      end
-      return true
     end
     
     def mark(player)
@@ -28,8 +21,12 @@ module Tic_Tac_Toe
 
     private
 
-    def board=(board)
-      @board = board.each_slice(3).to_a
+    def complete_line?(line, mark)
+      line.each do |elem|
+        return false unless elem == mark
+      end
+      return true
     end
+
   end
 end
