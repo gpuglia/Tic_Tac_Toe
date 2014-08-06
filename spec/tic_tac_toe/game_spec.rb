@@ -52,5 +52,25 @@ describe 'Tic_Tac_Toe' do
         specify { game.over?.should be_false }
       end
     end
+
+    describe '#available_moves' do
+      it 'returns and array of available moves' do
+        expect(game.available_moves).to eq([2, 4, 6, 7, 8, 9])
+      end 
+    end
+
+    describe '#move' do
+      context "when it's the human player's turn"
+        it "inserts 'X' in the specified index" do
+          board = Tic_Tac_Toe::Board.new(["X", "", "X", "", "O", "", "", "", ""])
+          game = Tic_Tac_Toe::Game.new(state: board)
+          game.instance_variable_set(:@current_turn, :human) 
+          p game.state.board
+          expect { game.move!(2) }.to change { game.state.board }
+            .from([["X", "", "X"], ["", "O", ""], ["", "", ""]])
+            .to([["X", "X", "X"], ["", "O", ""], ["", "", ""]])
+          p game.state.board
+        end
+    end
   end
 end

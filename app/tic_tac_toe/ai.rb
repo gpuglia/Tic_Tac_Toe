@@ -1,7 +1,7 @@
 module Tic_Tac_Toe
   class Ai
-    def initialize
-      puts "Computer created"
+    def initialize(game)
+      @game = game
     end
 
     def find_best_move(board)
@@ -20,12 +20,8 @@ module Tic_Tac_Toe
       return { move: best_move, rating: -minimum_rating }
     end
 
-    def available_moves(board)
-      board.map.with_index { |cell, index|  index + 1 if cell.empty? }.compact 
-    end
-
     def evaluate_position(board)
-      return score(board) if game_over?
+      return score(board) if @game.over?
       find_best_move(board)[:rating]
     end
 

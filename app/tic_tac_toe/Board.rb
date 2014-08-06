@@ -1,5 +1,7 @@
 module Tic_Tac_Toe
   class Board
+    attr_reader :board
+    
     def initialize(array)
       self.board = array
     end
