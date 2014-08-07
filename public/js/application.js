@@ -12,6 +12,15 @@ Board.prototype.read = function() {
   return boardArray;
 }
 
+function getComputerMove(board) {
+  var url = '/computer_move';
+  var data = {board: board } ;
+  console.log(data);
+  
+  $.post(url, data, function() {
+    console.log("in get");
+  })
+}
 
 // Board.prototype.write(move, mark) = 
 
