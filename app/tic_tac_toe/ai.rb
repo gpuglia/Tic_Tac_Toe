@@ -1,54 +1,36 @@
 module Tic_Tac_Toe
-  class Ai
-    # MINIMUM_RATING = 11
+  module Ai
+    MINIMUM_RATING = 101
 
-    def initialize
-      @best_move = nil
-    end
+    module_function
 
-    def find_best_move(game)
-      puts "RECURSION"
-      moves = game.available_moves
-      print "available moves: "
-      p moves
-      minimum_rating = 11
+    def find_best_move(game, depth = 0)
+      moves = game.available_moves.shuffle
+      minimum_rating = MINIMUM_RATING
+      best_move = 0
 
       moves.each do |move|
-        p move
-        p game.current_turn
         game.move!(move)
-        p game.state
-        current_rating = evaluate_position(game)
-        # p game.state
+        current_rating = evaluate_position(game, depth)
         if current_rating < minimum_rating
-          puts "changing best move"
-          @best_move = move
-          puts "current rating: #{current_rating}"
+          best_move = move
           minimum_rating = current_rating
         end
         game.undo_move!(move)
       end
-      # p best_move
-      # p "min rating: #{minimum_rating}"
 
-      return { move: @best_move, rating: -minimum_rating }
+      return { move: best_move, rating: -minimum_rating }
     end
 
-    def evaluate_position(game)
-      return game.score if game.over?
-      find_best_move(game)[:rating]
+    private
+
+    module_function
+
+    def evaluate_position(game, depth)
+      return game.score + depth if game.over?
+      find_best_move(game, depth + 1)[:rating]
     end
 
   end
 end
 
-require_relative 'board.rb'
-require_relative 'game.rb'
-
-board = Tic_Tac_Toe::Board.new(["X", "", "X", "", "O", "", "", "", ""])
-game = Tic_Tac_Toe::Game.new(state: board)
-computer = Tic_Tac_Toe::Ai.new
-
-p computer.find_best_move(game)
-p "!!!!!!!!!!"
-p game.state

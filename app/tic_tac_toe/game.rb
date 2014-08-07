@@ -1,9 +1,13 @@
 module Tic_Tac_Toe
   class Game
+    WINNING_SCORE = 100
+    LOOSING_SCORE = -100
+    DRAW_SCORE = 0
+
     attr_reader :state, :current_turn
 
-    def initialize(args)
-      @state = args[:state]
+    def initialize(state)
+      @state = state
       @current_turn = :computer
     end
 
@@ -26,10 +30,6 @@ module Tic_Tac_Toe
       @state.board.flatten.map.with_index { |cell, index|  index + 1 if cell.empty? }.compact 
     end
 
-    # def turns_taken
-    #   9 - available_moves.size
-    # end
-
     def move!(index)
       row = (index - 1) / 3
       column = (index - 1) % 3
@@ -50,14 +50,11 @@ module Tic_Tac_Toe
 
     def score
       if win?(@current_turn)
-        puts "!!#{@current_turn} wins"
-        10
+        WINNING_SCORE
       elsif win?(opponent)
-        puts "!!#{opponent} wins"
-        -10
+        LOOSING_SCORE
       else
-        puts "DRAW"
-        0
+        DRAW_SCORE
       end
     end
 
