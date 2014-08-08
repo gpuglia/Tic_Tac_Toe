@@ -1,5 +1,6 @@
 var Board = function() {};
 var Game = function() {
+  this.status = $('#status')
   // this.board = new Board
 };
 
@@ -51,16 +52,24 @@ Game.prototype.interpretComputerMove = function(rating) {
     text = 'Ai wins';
   else if (rating === 1)
    text = 'Draw';
+  else
+    text = '';
 
-  if (text) {
-    $('#status span').text(text);
-    $('#reset').show();
-  }
+  this.status.html('<span>' + text + '</span>');
+  $('#reset').show();
+  // if (text) {
+  //   $('#status span').text(text);
+  //   $('#reset').show();
+  // }
+}
+
+Game.prototype.loading = function() {
+  this.status.html('<img src="img/ajax-loader.gif" alt="loader" id="loader">')
 }
 
 Game.prototype.start = function(board) {
-  $('#loader').hide();
-  $('#reset').hide();
+  // $('#loader').hide();
+  // $('#reset').hide();
   $('#status span').html('Start');
   board.reset();
 }
@@ -73,7 +82,7 @@ $(document).ready(function() {
   $('table').on('click', 'td', function() {
     if($(this).html() === "") {
       game.makeHumanMove($(this), board);
-
+      game.loading()
       game.getComputerMove(board.read()).done(function(response) {
         // $('#loader').hide();
         var move = JSON.parse(response);
@@ -86,7 +95,7 @@ $(document).ready(function() {
 
   $('#reset').on('click', function() {
     // board.reset();
-    game.setInitialConditions();
+    // game.setInitialConditions();
   })
 
 })
