@@ -1,12 +1,12 @@
 module Tic_Tac_Toe
   module Ai
-    MINIMUM_RATING = 101
 
     module_function
 
     def find_best_move(game, depth = 0)
       moves = game.available_moves.shuffle
-      minimum_rating = MINIMUM_RATING
+      # minimum_rating = MINIMUM_RATING
+      minimum_rating = WINNING_SCORE + 1
       best_move = 0
 
       moves.each do |move|

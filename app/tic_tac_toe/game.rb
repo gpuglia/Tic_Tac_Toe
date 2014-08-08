@@ -1,8 +1,9 @@
 module Tic_Tac_Toe
-  class Game
-    WINNING_SCORE = 100
+   WINNING_SCORE = 100
     LOOSING_SCORE = -100
     DRAW_SCORE = 0
+  class Game
+   
 
     attr_reader :state, :current_turn
 
