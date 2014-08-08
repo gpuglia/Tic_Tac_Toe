@@ -4,7 +4,7 @@ var Board = function() {
 
 
 Board.prototype.read = function() {
-  boardArray = [];
+  var boardArray = [];
   $('#board td').map(function() {
     boardArray.push($(this).html());    
   });
@@ -12,26 +12,49 @@ Board.prototype.read = function() {
   return boardArray;
 }
 
-function getComputerMove(board) {
-  var url = '/computer_move';
-  var data = {board: board } ;
-  console.log(data);
-  
-  $.post(url, data, function() {
-    console.log("in get");
-  })
+
+Board.prototype.write = function(cell, mark) {
+  cell.html(mark);
 }
 
-// Board.prototype.write(move, mark) = 
+Board.prototype.getCellByMove = function(move) {
+    var row = parseInt((move - 1) / 3) + 1;
+    var column = ((move - 1) % 3) + 1;
+    return $('table tr:nth-child(' + row + ') td:nth-child(' + column + ')')
+}
+
+function getComputerMove(board) {
+  var url = '/computer_move';
+  var data = { board: board } ;
+
+  // return $.post(url, data, function(response) {
+  //   // console.log(JSON.parse(response));
+  //     return JSON.parse(response);
+  // }).done( function() {
+  //   console.log("DONE")
+  // })
+  return $.post(url, data, { dataType: "json" });
+  
+  
+}
 
 $(document).ready(function() {
   board = new Board;
 
   $('table').on('click', 'td', function() {
-    console.log($(this).html());
+    console.log('click')
     if($(this).html() == "") {
-      $(this).html('X') 
-      getComputerMove(board.read())
+      board.write($(this), "X"); 
+
+      getComputerMove(board.read()).done(function(response) {
+        var move = JSON.parse(response);
+        console.log(move);
+        var cell = board.getCellByMove(move.move);
+        board.write(cell, 'O');
+      })
+      
+      // console.log(cell);
+      // board.write(cell, 'O');
     }
   })
 })
