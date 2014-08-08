@@ -29,18 +29,21 @@ function getComputerMove(board) {
 
 $(document).ready(function() {
   board = new Board;
+  $('.loader').hide();
 
   $('table').on('click', 'td', function() {
     console.log('click')
     if($(this).html() == "") {
       board.write($(this), "X"); 
+      $('.loader').show();
 
       getComputerMove(board.read()).done(function(response) {
+        $('.loader').hide();
         var move = JSON.parse(response);
         console.log(move);
         var cell = board.getCellByMove(move.move);
         board.write(cell, 'O');
-      })
+      });
 
     }
   })

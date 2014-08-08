@@ -19,6 +19,17 @@ td {
   text-align: center;
 }
 
+#status {
+  margin: 50px;
+  text-align: center;
+}
+
+#status img {
+  display: block;
+  margin: 5px auto;
+}
+
+
 
 .square{
     width:100px;
