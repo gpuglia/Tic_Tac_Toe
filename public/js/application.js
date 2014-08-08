@@ -35,7 +35,7 @@ Game.prototype.getComputerMove = function(board) {
 }
 
 Game.prototype.makeComputerMove = function(move, board) {
-  var cell = board.getCellByMove(move.move);
+  var cell = board.getCellByMove(move);
   board.write(cell, 'O');
   $('#loader').hide();
 }
@@ -48,29 +48,29 @@ Game.prototype.makeHumanMove = function(move, board) {
 Game.prototype.interpretComputerMove = function(rating) {
   var text;
 
-  if (rating === 100)
-    text = 'Ai wins';
-  else if (rating === 1)
-   text = 'Draw';
-  else
-    text = '';
+  switch (rating) {
+    case 100:
+      text = 'Ai wins';
+      break;
+    case 1:
+     text = 'Draw';
+     break;
+    case -101:
+      text = "Click 'Restart' to play again";
+      break;
+    default:
+      text = 'Go';
+  }
 
   this.status.html('<span>' + text + '</span>');
-  $('#reset').show();
-  // if (text) {
-  //   $('#status span').text(text);
-  //   $('#reset').show();
-  // }
 }
 
 Game.prototype.loading = function() {
-  this.status.html('<img src="img/ajax-loader.gif" alt="loader" id="loader">')
+  this.status.html('<img src="img/ajax-loader.gif" alt="loader">')
 }
 
 Game.prototype.start = function(board) {
-  // $('#loader').hide();
-  // $('#reset').hide();
-  $('#status span').html('Start');
+  this.status.html('<span>Start</span>');
   board.reset();
 }
 
@@ -80,22 +80,21 @@ $(document).ready(function() {
   game.start(board);
 
   $('table').on('click', 'td', function() {
-    if($(this).html() === "") {
+    if($(this).html() === ""){
       game.makeHumanMove($(this), board);
-      game.loading()
+      game.loading();
+
       game.getComputerMove(board.read()).done(function(response) {
-        // $('#loader').hide();
         var move = JSON.parse(response);
         console.log(move); //DELETE
-        game.makeComputerMove(move, board)
+        game.makeComputerMove(move.move, board)
         game.interpretComputerMove(move.rating);
       });
     }
   })
 
   $('#reset').on('click', function() {
-    // board.reset();
-    // game.setInitialConditions();
+    game.start(board);
   })
 
 })
