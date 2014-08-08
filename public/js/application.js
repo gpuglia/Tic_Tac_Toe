@@ -1,5 +1,7 @@
 var Board = function() {};
-var Game = function() {};
+var Game = function() {
+  // this.board = new Board
+};
 
 Board.prototype.read = function() {
   var boardArray = [];
@@ -20,6 +22,10 @@ Board.prototype.getCellByMove = function(move) {
     return $('table tr:nth-child(' + row + ') td:nth-child(' + column + ')')
 }
 
+Board.prototype.reset = function() {
+  $('table td').html('');
+}
+
 Game.prototype.getComputerMove = function(board) {
   var url = '/computer_move';
   var data = { board: board } ;
@@ -30,47 +36,59 @@ Game.prototype.getComputerMove = function(board) {
 Game.prototype.makeComputerMove = function(move, board) {
   var cell = board.getCellByMove(move.move);
   board.write(cell, 'O');
+  $('#loader').hide();
+}
+
+Game.prototype.makeHumanMove = function(move, board) {
+  board.write(move, "X"); 
+  $('#loader').show();
 }
 
 Game.prototype.interpretComputerMove = function(rating) {
-  var text
+  var text;
 
   if (rating === 100)
-    return 'Ai wins';
+    text = 'Ai wins';
   else if (rating === 1)
-    return 'Draw';
+   text = 'Draw';
 
-  // $('#status span').text(text);
+  if (text) {
+    $('#status span').text(text);
+    $('#reset').show();
+  }
+}
+
+Game.prototype.start = function(board) {
+  $('#loader').hide();
+  $('#reset').hide();
+  $('#status span').html('Start');
+  board.reset();
 }
 
 $(document).ready(function() {
   board = new Board;
   game = new Game;
-
-  $('#loader').hide();
-  $('#reset').hide();
-
+  game.start(board);
 
   $('table').on('click', 'td', function() {
     if($(this).html() === "") {
-      board.write($(this), "X"); 
-      $('.loader').show();
+      game.makeHumanMove($(this), board);
 
       game.getComputerMove(board.read()).done(function(response) {
-        $('.loader').hide();
+        // $('#loader').hide();
         var move = JSON.parse(response);
-        console.log(move);
+        console.log(move); //DELETE
         game.makeComputerMove(move, board)
-        var outcome = game.interpretComputerMove(move.rating);
-
-        if (outcome) {
-          $('#status span').text(outcome);
-        }
-
+        game.interpretComputerMove(move.rating);
       });
-
     }
   })
+
+  $('#reset').on('click', function() {
+    // board.reset();
+    game.setInitialConditions();
+  })
+
 })
 
 

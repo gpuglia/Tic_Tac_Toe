@@ -29,7 +29,9 @@ td {
   margin: 5px auto;
 }
 
-
+#reset {
+  margin: 10px;
+}
 
 .square{
     width:100px;
