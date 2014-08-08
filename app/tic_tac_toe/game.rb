@@ -7,7 +7,7 @@ module Tic_Tac_Toe
     attr_reader :state, :current_turn
 
     def initialize(state)
-      @state = state
+      @state = Board.new(state)
       @current_turn = :computer
     end
 
