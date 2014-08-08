@@ -1,7 +1,4 @@
-var Board = function() {
-
-};
-
+var Board = function() {};
 
 Board.prototype.read = function() {
   var boardArray = [];
@@ -27,15 +24,7 @@ function getComputerMove(board) {
   var url = '/computer_move';
   var data = { board: board } ;
 
-  // return $.post(url, data, function(response) {
-  //   // console.log(JSON.parse(response));
-  //     return JSON.parse(response);
-  // }).done( function() {
-  //   console.log("DONE")
-  // })
-  return $.post(url, data, { dataType: "json" });
-  
-  
+  return $.post(url, data, { dataType: "json" });  
 }
 
 $(document).ready(function() {
@@ -52,9 +41,7 @@ $(document).ready(function() {
         var cell = board.getCellByMove(move.move);
         board.write(cell, 'O');
       })
-      
-      // console.log(cell);
-      // board.write(cell, 'O');
+
     }
   })
 })
