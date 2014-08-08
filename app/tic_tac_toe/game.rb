@@ -12,50 +12,20 @@ module Tic_Tac_Toe
     end
 
     def over?
-      # return true if available_moves.empty?
       available_moves.empty? || win?(:human) || win?(:computer)
-    end
-
-    def win?(player) #private
-      mark = mark(player)
-      @state.lines.each { |line| return true if complete_line?(line, mark) }
-      return false
-    end
-
-    #  def win?(player) #private
-    #   mark = mark(player)
-    #   @state.lines.find { |line| complete_line?(line, mark) }
-    #   # return false
-    # end
-    
-    def mark(player) #private
-      player == :human ? "X" : "O"
     end
 
     def available_moves
       @state.to_a.map.with_index { |cell, index|  index + 1 if cell.empty? }.compact 
     end
 
-    def move(mark = mark(@current_turn), index) #HACK
-      # row = (index - 1) / 3
-      # column = (index - 1) % 3
-      # @state.board[row][column] = mark(@current_turn)
-      # @state.insert_at(mark(@current_turn), index)
+    def move(mark = mark(@current_turn), index)
       @state.insert_at(mark, index)
       @current_turn = opponent
     end
 
-    def undo_move(index) #HACK
+    def undo_move(index)
       move("", index)
-      # row = (index - 1) / 3
-      # column = (index - 1) % 3
-      # @state.board[row][column] = ""
-      # @state.insert_at("", index)
-      # @current_turn = opponent
-    end
-
-    def opponent
-      @current_turn == :human ? :computer : :human
     end
 
     def score
@@ -75,6 +45,20 @@ module Tic_Tac_Toe
         return false unless elem == mark
       end
       return true
+    end
+
+    def win?(player) 
+      mark = mark(player)
+      @state.lines.each { |line| return true if complete_line?(line, mark) }
+      return false
+    end
+
+    def opponent 
+      @current_turn == :human ? :computer : :human
+    end
+
+    def mark(player)
+      player == :human ? "X" : "O"
     end
 
   end
