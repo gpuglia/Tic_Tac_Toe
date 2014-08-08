@@ -1,4 +1,6 @@
-var Board = function() {};
+var Board = function() {
+  this.locked = false;
+};
 var Game = function() {
   this.status = $('#status')
   this.board = new Board
@@ -11,6 +13,14 @@ Board.prototype.read = function() {
   });
 
   return boardArray;
+}
+
+Board.prototype.lock = function() {
+  this.locked = true;
+}
+
+Board.prototype.unlock = function() {
+  this.locked = false;
 }
 
 Board.prototype.write = function(cell, mark) {
@@ -79,7 +89,8 @@ $(document).ready(function() {
   game.start();
 
   $('table').on('click', 'td', function() {
-    if($(this).html() === ""){
+    if($(this).html() === "" && game.board.locked === false){
+      game.board.lock();
       game.makeHumanMove($(this));
       game.loading();
 
@@ -87,6 +98,7 @@ $(document).ready(function() {
         var move = JSON.parse(response);
         game.makeComputerMove(move.move)
         game.interpretComputerMove(move.rating);
+        game.board.unlock();
       });
     }
   })
