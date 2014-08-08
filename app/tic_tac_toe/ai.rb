@@ -10,13 +10,13 @@ module Tic_Tac_Toe
       best_move = 0
 
       moves.each do |move|
-        game.move!(move)
+        game.move(move)
         current_rating = evaluate_position(game, depth)
         if current_rating < minimum_rating
           best_move = move
           minimum_rating = current_rating
         end
-        game.undo_move!(move)
+        game.undo_move(move)
       end
 
       return { move: best_move, rating: -minimum_rating }

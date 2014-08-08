@@ -6,15 +6,15 @@ module Tic_Tac_Toe
       self.board = array
     end
 
-    def rows
+    def rows #PRIVATE
       @board
     end
 
-    def columns
+    def columns #PRIVATE
       @board.transpose
     end
 
-    def diagonals
+    def diagonals #PRIVATE
       diagonal_1 = []  
       diagonal_2 = []  
 
@@ -30,7 +30,21 @@ module Tic_Tac_Toe
       rows + columns + diagonals
     end
 
+    def insert_at(mark, index)
+      @board[coordinates(index).first][coordinates(index).last] = mark
+    end
+
+    def to_a
+      @board.flatten
+    end
+
     private
+
+    def coordinates(index)
+      row = (index - 1) / 3
+      column = (index - 1) % 3
+      return [row, column]
+    end
 
     def board=(array)
       @board = array.each_slice(3).to_a
