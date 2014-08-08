@@ -1,6 +1,6 @@
 module Tic_Tac_Toe
     WINNING_SCORE = 100
-    LOOSING_SCORE = -100
+    LOSING_SCORE = -100
     DRAW_SCORE = 0
   class Game
    
@@ -19,20 +19,20 @@ module Tic_Tac_Toe
       @state.to_a.map.with_index { |cell, index|  index + 1 if cell.empty? }.compact 
     end
 
-    def move(mark = mark(@current_turn), index)
+    def move(index, mark = mark(@current_turn))
       @state.insert_at(mark, index)
       @current_turn = opponent
     end
 
     def undo_move(index)
-      move("", index)
+      move(index, "")
     end
 
     def score
       if win?(@current_turn)
         WINNING_SCORE
       elsif win?(opponent)
-        LOOSING_SCORE
+        LOSING_SCORE
       else
         DRAW_SCORE
       end
