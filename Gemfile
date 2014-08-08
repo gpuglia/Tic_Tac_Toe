@@ -9,8 +9,6 @@ gem 'sinatra-contrib'
 gem 'thin'
 gem 'json'
 
-gem 'rake'
-
 gem 'shotgun'
 
 
