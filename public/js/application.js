@@ -24,7 +24,7 @@ function getComputerMove(board) {
   var url = '/computer_move';
   var data = { board: board } ;
 
-  return $.post(url, data, { dataType: "json" });  
+  return $.get(url, data, { dataType: "json" });  
 }
 
 $(document).ready(function() {
@@ -33,7 +33,7 @@ $(document).ready(function() {
 
   $('table').on('click', 'td', function() {
     console.log('click')
-    if($(this).html() == "") {
+    if($(this).html() === "") {
       board.write($(this), "X"); 
       $('.loader').show();
 
