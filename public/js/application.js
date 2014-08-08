@@ -56,7 +56,7 @@ Game.prototype.interpretComputerMove = function(rating) {
      text = 'Draw';
      break;
     case -101:
-      text = "Click 'Restart' to play again";
+      text = "Click 'Reset' to play again";
       break;
     default:
       text = 'Go';
