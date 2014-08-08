@@ -1,7 +1,7 @@
 var Board = function() {};
 var Game = function() {
   this.status = $('#status')
-  // this.board = new Board
+  this.board = new Board
 };
 
 Board.prototype.read = function() {
@@ -27,21 +27,21 @@ Board.prototype.reset = function() {
   $('table td').html('');
 }
 
-Game.prototype.getComputerMove = function(board) {
+Game.prototype.getComputerMove = function() {
   var url = '/computer_move';
-  var data = { board: board } ;
+  var data = { board: this.board.read() } ;
 
   return $.get(url, data, { dataType: "json" });  
 }
 
-Game.prototype.makeComputerMove = function(move, board) {
-  var cell = board.getCellByMove(move);
-  board.write(cell, 'O');
+Game.prototype.makeComputerMove = function(move) {
+  var cell = this.board.getCellByMove(move);
+  this.board.write(cell, 'O');
   $('#loader').hide();
 }
 
-Game.prototype.makeHumanMove = function(move, board) {
-  board.write(move, "X"); 
+Game.prototype.makeHumanMove = function(move) {
+  this.board.write(move, "X"); 
   $('#loader').show();
 }
 
@@ -69,25 +69,24 @@ Game.prototype.loading = function() {
   this.status.html('<img src="img/ajax-loader.gif" alt="loader">')
 }
 
-Game.prototype.start = function(board) {
+Game.prototype.start = function() {
   this.status.html('<span>Start</span>');
-  board.reset();
+  this.board.reset();
 }
 
 $(document).ready(function() {
-  board = new Board;
   game = new Game;
-  game.start(board);
+  game.start();
 
   $('table').on('click', 'td', function() {
     if($(this).html() === ""){
-      game.makeHumanMove($(this), board);
+      game.makeHumanMove($(this));
       game.loading();
 
-      game.getComputerMove(board.read()).done(function(response) {
+      game.getComputerMove().done(function(response) {
         var move = JSON.parse(response);
         console.log(move); //DELETE
-        game.makeComputerMove(move.move, board)
+        game.makeComputerMove(move.move)
         game.interpretComputerMove(move.rating);
       });
     }
