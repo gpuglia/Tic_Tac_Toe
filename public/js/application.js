@@ -85,7 +85,6 @@ $(document).ready(function() {
 
       game.getComputerMove().done(function(response) {
         var move = JSON.parse(response);
-        console.log(move); //DELETE
         game.makeComputerMove(move.move)
         game.interpretComputerMove(move.rating);
       });
