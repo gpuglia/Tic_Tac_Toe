@@ -1,7 +1,6 @@
 module Tic_Tac_Toe
   class Board
-    attr_reader :board
-    
+
     def initialize(array)
       self.board = array
     end
@@ -10,8 +9,8 @@ module Tic_Tac_Toe
       rows + columns + diagonals
     end
 
-    def insert_at(mark, index)
-      @board[coordinates(index).first][coordinates(index).last] = mark
+    def insert_mark_at(mark, space)
+      @board[coordinates(space).first][coordinates(space).last] = mark
     end
 
     def to_a
@@ -24,9 +23,9 @@ module Tic_Tac_Toe
       @board = array.each_slice(3).to_a
     end
 
-    def coordinates(index)
-      row = (index - 1) / 3
-      column = (index - 1) % 3
+    def coordinates(space)
+      row = (space - 1) / 3
+      column = (space - 1) % 3
       return [row, column]
     end
 
