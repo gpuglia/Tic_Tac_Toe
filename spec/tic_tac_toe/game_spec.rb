@@ -60,15 +60,5 @@ describe 'Tic_Tac_Toe' do
         end
       end
     end
-
-    describe '#move' do
-      context "when it's the human player's turn"
-        it "inserts 'X' in the specified index" do
-          game.instance_variable_set(:@current_turn, :human) 
-          expect { game.move(2) }.to change { game.state.board }
-            .from([["X", "", "X"], ["", "O", ""], ["", "", ""]])
-            .to([["X", "X", "X"], ["", "O", ""], ["", "", ""]])
-        end
-    end
   end
 end

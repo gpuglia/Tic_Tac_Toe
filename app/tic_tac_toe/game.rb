@@ -19,13 +19,13 @@ module Tic_Tac_Toe
       @state.to_a.map.with_index { |cell, index|  index + 1 if cell.empty? }.compact 
     end
 
-    def move(index, mark = mark(@current_turn))
-      @state.insert_at(mark, index)
+    def move(space, mark = mark(@current_turn))
+      @state.insert_mark_at(mark, space)
       @current_turn = opponent
     end
 
-    def undo_move(index)
-      move(index, "")
+    def undo_move(space)
+      move(space, "")
     end
 
     def score
