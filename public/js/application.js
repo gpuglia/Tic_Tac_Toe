@@ -1,4 +1,5 @@
 var Board = function() {};
+var Game = function() {};
 
 Board.prototype.read = function() {
   var boardArray = [];
@@ -8,7 +9,6 @@ Board.prototype.read = function() {
 
   return boardArray;
 }
-
 
 Board.prototype.write = function(cell, mark) {
   cell.html(mark);
@@ -20,29 +20,53 @@ Board.prototype.getCellByMove = function(move) {
     return $('table tr:nth-child(' + row + ') td:nth-child(' + column + ')')
 }
 
-function getComputerMove(board) {
+Game.prototype.getComputerMove = function(board) {
   var url = '/computer_move';
   var data = { board: board } ;
 
   return $.get(url, data, { dataType: "json" });  
 }
 
+Game.prototype.makeComputerMove = function(move, board) {
+  var cell = board.getCellByMove(move.move);
+  board.write(cell, 'O');
+}
+
+Game.prototype.interpretComputerMove = function(rating) {
+  var text
+
+  if (rating === 100)
+    return 'Ai wins';
+  else if (rating === 1)
+    return 'Draw';
+
+  // $('#status span').text(text);
+}
+
 $(document).ready(function() {
   board = new Board;
-  $('.loader').hide();
+  game = new Game;
+
+  $('#loader').hide();
+  $('#reset').hide();
+
 
   $('table').on('click', 'td', function() {
-    console.log('click')
     if($(this).html() === "") {
       board.write($(this), "X"); 
       $('.loader').show();
 
-      getComputerMove(board.read()).done(function(response) {
+      game.getComputerMove(board.read()).done(function(response) {
         $('.loader').hide();
         var move = JSON.parse(response);
         console.log(move);
-        var cell = board.getCellByMove(move.move);
-        board.write(cell, 'O');
+        game.makeComputerMove(move, board)
+        var outcome = game.interpretComputerMove(move.rating);
+
+        if (outcome) {
+          $('#status span').text(outcome);
+        }
+
       });
 
     }
