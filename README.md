@@ -1,4 +1,4 @@
-sinatra-skeleton
+#Unbeatable Tic Tac Toe AI
 ================
 
-A basic skeleton handling BCrypt, Basic login, and RESTful Routing. 
+Play against a perfect opponent in this version of Tic Tac Toe developed in Sinatra.
