@@ -60,5 +60,17 @@ describe 'Tic_Tac_Toe' do
         end
       end
     end
+
+    describe '#first_turn?' do
+      context 'when it is the first turn' do
+        let(:game) { Tic_Tac_Toe::Game.new(["", "", "", "", "", "", "", "", ""]) }
+        specify { game.first_turn?.should be_true }
+      end
+
+      context 'when it is not the first turn' do
+        let(:game) { Tic_Tac_Toe::Game.new(["X", "", "", "", "", "", "", "", ""]) }
+        specify { game.first_turn?.should be_false }
+      end
+    end
   end
 end

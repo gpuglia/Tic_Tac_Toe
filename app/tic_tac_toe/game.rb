@@ -38,6 +38,10 @@ module Tic_Tac_Toe
       end
     end
 
+    def first_turn?
+      @state.to_a.uniq.length == 1
+    end
+
     private
 
     def complete_line?(line, mark)
