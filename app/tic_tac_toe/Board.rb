@@ -1,7 +1,9 @@
 module Tic_Tac_Toe
   class Board
+    attr_reader :side
 
-    def initialize(array)
+    def initialize(array, side = 3)
+      @side = side
       self.board = array
     end
 
@@ -20,12 +22,12 @@ module Tic_Tac_Toe
     private
 
     def board=(array)
-      @board = array.each_slice(3).to_a
+      @board = array.each_slice(@side).to_a
     end
 
     def coordinates(space)
-      row = (space - 1) / 3
-      column = (space - 1) % 3
+      row = (space - 1) / @side
+      column = (space - 1) % @side
       return [row, column]
     end
 
@@ -43,7 +45,7 @@ module Tic_Tac_Toe
 
       @board.each_with_index do |row, i|
         diagonal_1 << row[i]
-        diagonal_2 << row[2 - i]
+        diagonal_2 << row[(@side - 1) - i]
       end
 
       return [diagonal_1, diagonal_2]

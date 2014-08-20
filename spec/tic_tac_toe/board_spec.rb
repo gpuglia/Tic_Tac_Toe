@@ -4,6 +4,9 @@ describe 'Tic_Tac_Toe' do
   describe 'Board' do
     let(:board) { Tic_Tac_Toe::Board.new(["X", "", "X", "", "O", "", "", "", ""]) }
 
+    it 'has a default side of 3' do
+      expect(board.side).to eq(3)
+    end
     describe '#lines' do
       it 'returns an array of the rows, columns and diagonals of the board' do
         expect(board.lines).to eq([["X", "", "X"], ["", "O", ""], ["", "", ""], ["X", "", ""], ["", "O", ""], ["X", "", ""], ["X", "O", ""], ["X", "O", ""]])
