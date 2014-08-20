@@ -7,6 +7,8 @@ module Tic_Tac_Toe
       minimum_rating = WINNING_SCORE + 1
       best_move = 0
 
+      return { move: moves.sample, rating: nil } if game.first_turn?
+
       moves.each do |move|
         game.move(move)
         current_rating = evaluate_position(game, depth)
