@@ -1,14 +1,17 @@
 var Board = function() {
-  this.locked = false;
+  this.locked = true;
+  this.cells = $('table td');
 };
+
 var Game = function() {
-  this.status = $('#status')
-  this.board = new Board
+  this.status = $('#status');
+  this.board = new Board;
+  this.loader = $('#loader');
 };
 
 Board.prototype.read = function() {
   var boardArray = [];
-  $('#board td').map(function() {
+  this.cells.map(function() {
     boardArray.push($(this).html());    
   });
 
@@ -34,7 +37,7 @@ Board.prototype.getCellByMove = function(move) {
 }
 
 Board.prototype.reset = function() {
-  $('table td').html('');
+  this.cells.html('');
 }
 
 Game.prototype.getComputerMove = function() {
@@ -47,12 +50,12 @@ Game.prototype.getComputerMove = function() {
 Game.prototype.makeComputerMove = function(move) {
   var cell = this.board.getCellByMove(move);
   this.board.write(cell, 'O');
-  $('#loader').hide();
+  this.loader.hide();
 }
 
 Game.prototype.makeHumanMove = function(move) {
   this.board.write(move, "X"); 
-  $('#loader').show();
+  this.loader.show();
 }
 
 Game.prototype.interpretComputerMove = function(rating) {
