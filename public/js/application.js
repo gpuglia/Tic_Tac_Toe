@@ -50,12 +50,10 @@ Game.prototype.getComputerMove = function() {
 Game.prototype.makeComputerMove = function(move) {
   var cell = this.board.getCellByMove(move);
   this.board.write(cell, 'O');
-  this.loader.hide();
 }
 
 Game.prototype.makeHumanMove = function(move) {
   this.board.write(move, "X"); 
-  this.loader.show();
 }
 
 Game.prototype.interpretComputerMove = function(rating) {
