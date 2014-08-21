@@ -63,12 +63,10 @@ Game.prototype.interpretComputerMove = function(rating) {
     case 100:
       text = 'Ai wins';
       break;
-    case 1:
+    case 0:
+    caseg -101:
      text = 'Draw';
      break;
-    case -101:
-      text = "Click 'Reset' to play again";
-      break;
     default:
       text = 'Go';
   }
@@ -76,31 +74,48 @@ Game.prototype.interpretComputerMove = function(rating) {
   this.status.html('<span>' + text + '</span>');
 }
 
+Game.prototype.computerMove = function() {
+  game.loading();
+  var self = this;
+  self.getComputerMove().done(function(response) {
+    console.log(response)
+    var move = JSON.parse(response);
+    self.makeComputerMove(move.move);
+    self.interpretComputerMove(move.rating);
+    self.board.unlock();
+  });
+}
+
 Game.prototype.loading = function() {
   this.status.html('<img src="img/ajax-loader.gif" alt="loader">')
 }
 
 Game.prototype.start = function() {
-  this.status.html('<span>Start</span>');
+  this.status.html('<span>Who starts?</span>');
   this.board.reset();
 }
 
 $(document).ready(function() {
   game = new Game;
+
   game.start();
 
+  $('#human').on('click', function() {
+    game.board.unlock();
+  });
+
+  $('#ai').on('click', function() {
+    game.computerMove();
+    console.log('move made')
+    game.board.unlock();
+
+  });
+
   $('table').on('click', 'td', function() {
-    if($(this).html() === "" && game.board.locked === false){
+    if($(this).html() === "" && game.board.locked === false) {
       game.board.lock();
       game.makeHumanMove($(this));
-      game.loading();
-
-      game.getComputerMove().done(function(response) {
-        var move = JSON.parse(response);
-        game.makeComputerMove(move.move)
-        game.interpretComputerMove(move.rating);
-        game.board.unlock();
-      });
+      game.computerMove();
     }
   })
 
