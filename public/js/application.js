@@ -4,10 +4,16 @@ var Board = function() {
 };
 
 var Game = function() {
-  this.status = $('#status');
   this.board = new Board;
-  this.loader = $('#loader');
+  this.prompt = new Prompt;
+  this.status = $('#status');
 };
+
+var Prompt = function() {
+  this.playerButtons = $('.player-buttons');
+  this.resetButton = $('#reset')
+  this.status = $('#status');
+}
 
 Board.prototype.read = function() {
   var boardArray = [];
@@ -72,43 +78,60 @@ Game.prototype.interpretComputerMove = function(rating) {
       this.board.unlock();
   }
 
-  this.status.html('<span>' + text + '</span>');
+  this.prompt.setStatusText(text);
 }
 
 Game.prototype.computerMove = function() {
-  game.loading();
   var self = this;
+  self.prompt.loading();
+
   self.getComputerMove().done(function(response) {
-    console.log(response)
     var move = JSON.parse(response);
     self.makeComputerMove(move.move);
     self.interpretComputerMove(move.rating);
   });
 }
 
-Game.prototype.loading = function() {
-  this.status.html('<img src="img/ajax-loader.gif" alt="loader">')
+Game.prototype.start = function() {
+  this.prompt.setStatusText('Who starts?');
+  this.board.reset();
+  this.prompt.setToPreGame();
 }
 
-Game.prototype.start = function() {
-  this.status.html('<span>Who starts?</span>');
-  this.board.reset();
+Prompt.prototype.setToPreGame = function() {
+  this.playerButtons.show();
+  this.resetButton.hide(); 
+};
+
+Prompt.prototype.setToGameUnderway = function() {
+  this.playerButtons.hide();
+  this.resetButton.show();
+};
+
+Prompt.prototype.setStatusText = function(text) {
+  this.status.html('<span>' + text + '</span>');
+}
+
+Prompt.prototype.loading = function() {
+  this.status.html('<img src="img/ajax-loader.gif" alt="loader">')
 }
 
 $(document).ready(function() {
   game = new Game;
-
+  prompt = new Prompt;
   game.start();
 
   $('#human').on('click', function() {
+    prompt.setStatusText('Go');   
     game.board.unlock();
   });
 
   $('#ai').on('click', function() {
     game.computerMove();
-    console.log('move made')
-    game.board.unlock();
+  });
 
+  $('.player-buttons').on('click', function() {
+    prompt.setToGameUnderway();
   });
 
   $('table').on('click', 'td', function() {
@@ -120,7 +143,7 @@ $(document).ready(function() {
   })
 
   $('#reset').on('click', function() {
-    game.start(board);
+    game.start();
   })
 
 })
