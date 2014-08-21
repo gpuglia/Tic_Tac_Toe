@@ -64,11 +64,12 @@ Game.prototype.interpretComputerMove = function(rating) {
       text = 'Ai wins';
       break;
     case 0:
-    caseg -101:
-     text = 'Draw';
-     break;
+    case -101:
+      text = 'Draw';
+      break;
     default:
       text = 'Go';
+      this.board.unlock();
   }
 
   this.status.html('<span>' + text + '</span>');
@@ -82,7 +83,6 @@ Game.prototype.computerMove = function() {
     var move = JSON.parse(response);
     self.makeComputerMove(move.move);
     self.interpretComputerMove(move.rating);
-    self.board.unlock();
   });
 }
 
