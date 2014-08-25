@@ -18,7 +18,7 @@
   <script type="text/javascript" src="public/js/require/require.js"></script>
 
   <script type="text/javascript">
-    require(["spec/javascripts/boardSpec"], function(document) {
+    require(["spec/javascripts/boardSpec", "spec/javascripts/promptSpec"], function(document) {
       jasmine.getEnv().addReporter(
           new jasmine.HtmlReporter()
       );
