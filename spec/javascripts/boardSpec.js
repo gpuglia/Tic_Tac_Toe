@@ -1,4 +1,4 @@
-define(["public/js/board"], function(Board) {
+define(["board"], function(Board) {
   describe("Board", function() {
     var board;
 
