@@ -2,14 +2,14 @@ define(["board", "prompt"], function(Board, Prompt) {
   var Game = function() {
     this.board = new Board;
     this.prompt = new Prompt;
-    this.status = $('#status');
+    // this.status = $('#status');
   };
 
   Game.prototype.getComputerMove = function() {
     var url = '/computer_move';
     var data = { board: this.board.read() } ;
 
-    return $.get(url, data, { dataType: "json" });  
+    return $.get(url, data);  
   };
 
   Game.prototype.makeComputerMove = function(move) {
@@ -17,8 +17,8 @@ define(["board", "prompt"], function(Board, Prompt) {
     this.board.write(cell, 'O');
   };
 
-  Game.prototype.makeHumanMove = function(move) {
-    this.board.write(move, "X"); 
+  Game.prototype.makeHumanMove = function(cell) {
+    this.board.write(cell, "X"); 
   };
 
   Game.prototype.interpretComputerMove = function(rating) {
