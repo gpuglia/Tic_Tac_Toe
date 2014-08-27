@@ -19,5 +19,5 @@ group :test do
 end
 
 group :test, :development do
-  gem 'rspec'
+  gem 'rspec', '~> 2.99'
 end
