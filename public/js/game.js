@@ -2,7 +2,6 @@ define(["board", "prompt"], function(Board, Prompt) {
   var Game = function() {
     this.board = new Board;
     this.prompt = new Prompt;
-    // this.status = $('#status');
   };
 
   Game.prototype.getComputerMove = function() {
